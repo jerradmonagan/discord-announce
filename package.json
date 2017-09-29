@@ -18,7 +18,6 @@
   "homepage": "https://github.com/jerradmonagan/discord-announce#readme",
   "dependencies": {
     "discord.js": "^11.2.1",
-    "discord.js-commando": "^0.9.0",
     "ffmpeg-binaries": "^3.2.2-3",
     "opusscript": "0.0.3"
   }
