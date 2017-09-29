@@ -17,11 +17,12 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
   // User Joins a voice channel
   if(oldUserChannel === undefined && newUserChannel !== undefined) {
     var d = new Date();
-    console.log("User "+ newMember.displayName +" has joined the channel "+newMember.voiceChannel.name+" on "+newMember.guild+" @" + d);
+    var dateOut= (getClockTime() +" "+d.getDate()+ " "+CurrentMonthName() +" "+d.getFullYear());
+    console.log("User "+ newMember.displayName +" has joined the channel "+newMember.voiceChannel.name+" on "+newMember.guild+" at " + dateOut.toString());
     var join = ("User "+ newMember.displayName +" has joined the channel ");
     bot.channels.get('363082234565099522').send(join);
-    var joinLog = ("User "+ newMember.displayName +" has joined the channel "+newMember.voiceChannel.name+" on "+newMember.guild+" @" + d);
-    fs.appendFile("./logs", joinLog+"\r\n", function(err) {
+    var joinLog = ("User "+ newMember.displayName +" has joined the channel "+newMember.voiceChannel.name+" on "+newMember.guild+" at " + dateOut.toString());
+    fs.appendFile("./logs.txt", joinLog+"\r\n", function(err) {
     if(err) {
         return console.log(err);
     }
@@ -31,11 +32,12 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
   else if(newUserChannel === undefined)
   {
     var d = new Date();
-    console.log("User "+ newMember.displayName +" has left the channel "+oldMember.voiceChannel.name+ " on "+oldMember.guild+" @" + d);
+    var dateOut= (getClockTime() +" "+d.getDate()+ " "+CurrentMonthName() +" "+d.getFullYear());
+    console.log("User "+ newMember.displayName +" has left the channel "+oldMember.voiceChannel.name+ " on "+oldMember.guild+" at " + dateOut.toString());
     var leave = ("User "+ newMember.displayName +" has left the channel ");
     bot.channels.get('363082234565099522').send(leave);
-    var leaveLog = ("User "+ oldMember.displayName +" has left the channel "+oldMember.voiceChannel.name+" on "+oldMember.guild+" @" + d);
-    fs.appendFile("./logs", leaveLog+"\r\n", function(err) {
+    var leaveLog = ("User "+ oldMember.displayName +" has left the channel "+oldMember.voiceChannel.name+" on "+oldMember.guild+" at " + dateOut.toString());
+    fs.appendFile("./logs.txt", leaveLog+"\r\n", function(err) {
     if(err) {
         return console.log(err);
     }
@@ -127,4 +129,44 @@ bot.on('message', message => {
 	}
 });
 //replace with your token after creating a bot
+
+function getClockTime(){
+   var now    = new Date();
+   var hour   = now.getHours();
+   var minute = now.getMinutes();
+   var second = now.getSeconds();
+   var ap = "AM";
+   if (hour   > 11) { ap = "PM";             }
+   if (hour   > 12) { hour = hour - 12;      }
+   if (hour   == 0) { hour = 12;             }
+   if (hour   < 10) { hour   = "0" + hour;   }
+   if (minute < 10) { minute = "0" + minute; }
+   if (second < 10) { second = "0" + second; }
+   var timeString = hour + ':' + minute + ':' + second + " " + ap;
+   return timeString;
+}
+
+function CurrentMonthName ()
+{
+var dateObj = new Date();
+// create an array
+var monthsArr = new Array();
+// get current month
+var currMonth = dateObj.getMonth();
+// store month names into our array
+monthsArr[0] = "January";
+monthsArr[1] = "February";
+monthsArr[2] = "March";
+monthsArr[3] = "April";
+monthsArr[4] = "May";
+monthsArr[5] = "June";
+monthsArr[6] = "July";
+monthsArr[7] = "August";
+monthsArr[8] = "September";
+monthsArr[9] = "October";
+monthsArr[10] = "November";
+monthsArr[11] = "December";
+return monthsArr[currMonth];
+}
+
 bot.login(settings.token);
